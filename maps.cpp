@@ -1,11 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
+std::ofstream ofs;
 
-class Node{
+class Node
+{
 public:
     string name;
     int nodeId;
-    Node(string s, int n){
+    Node(string s, int n)
+    {
         name = s;
         nodeId = n;
     }
@@ -13,10 +16,10 @@ public:
 
 const int numOfNodes = 140;
 
-vector<pair<int,string>> Nodes;
-vector<pair<int,int>> adj[140];
+vector<pair<int, string>> Nodes;
+vector<pair<int, int>> adj[140];
 
-void addEdge(vector <pair<int, int> > adj[], int u, int v, int wt)
+void addEdge(vector<pair<int, int>> adj[], int u, int v, int wt)
 {
     u--;
     v--;
@@ -35,57 +38,79 @@ int minDistance(vector<int> dist, vector<bool> sptSet)
 
 void printPath(vector<int> parent, int j)
 {
+    if (!ofs.is_open())
+    {
+        ofs.open("path.txt", std::ios_base::app);
+    }
     if (parent[j] == -1)
+    {
         return;
+    }
     printPath(parent, parent[j]);
-    cout << j+1 << " ";
+    cout << j + 1 << " ";
+    ofs << j + 1 << " "; //-1
 }
 
-void dijkstra(vector<pair<int,int>> adj[], int src, int dst)
+void dijkstra(vector<pair<int, int>> adj[], int src, int dst)
 {
     src--;
     dst--;
-    vector<int> dist(numOfNodes,INT_MAX), parent(numOfNodes,-1);
-    vector<bool> sptSet(numOfNodes,false);
+    vector<int> dist(numOfNodes, INT_MAX), parent(numOfNodes, -1);
+    vector<bool> sptSet(numOfNodes, false);
 
     dist[src] = 0;
 
-    for (int count = 0; count < numOfNodes - 1; count++) {
+    for (int count = 0; count < numOfNodes - 1; count++)
+    {
 
         int u = minDistance(dist, sptSet);
         sptSet[u] = true;
 
-        for (auto v: adj[u]){
-            if (!sptSet[v.first] && dist[u] + v.second < dist[v.first]) {
+        for (auto v : adj[u])
+        {
+            if (!sptSet[v.first] && dist[u] + v.second < dist[v.first])
+            {
                 parent[v.first] = u;
                 dist[v.first] = dist[u] + v.second;
             }
         }
-            
     }
-    cout<<src+1<<" ";
+    if (!ofs.is_open())
+    {
+        ofs.open("path.txt", std::ios_base::app);
+    }
+    cout << src + 1 << " ";
+    ofs << src + 1 << " "; // 0
     printPath(parent, dst);
 }
 
-int printShortestPath(vector<pair<int,int>> adj[], vector<int> parent, int s, int d)
+int printShortestPath(vector<pair<int, int>> adj[], vector<int> parent, int s, int d)
 {
+    if (!ofs.is_open())
+    {
+        ofs.open("path.txt", std::ios_base::app);
+    }
     int level = 0;
     if (parent[s] == -1)
     {
-        cout<<s+1<<" ";
+        cout << s + 1 << " "; //-2
+        ofs << s + 1 << " ";
         return level;
     }
-  
+
     printShortestPath(adj, parent, parent[s], d);
-  
+
     level++;
-    if (s<numOfNodes)
-        cout<<s+1<<" ";
-  
+    if (s < numOfNodes)
+    {
+        cout << s + 1 << " "; //-1
+        ofs << s + 1 << " ";
+    }
     return level;
 }
 
-int BFS(vector<pair<int,int>> adj[], int src, int dest){
+int BFS(vector<pair<int, int>> adj[], int src, int dest)
+{
 
     src--;
     dest--;
@@ -96,17 +121,17 @@ int BFS(vector<pair<int,int>> adj[], int src, int dest){
     queue<int> q;
     visited[src] = true;
     q.push(src);
-  
+
     while (!q.empty())
     {
         int s = q.front();
-  
+
         if (s == dest)
             return printShortestPath(adj, parent, s, dest);
-  
+
         q.pop();
 
-        for (auto i: adj[s])
+        for (auto i : adj[s])
         {
             if (!visited[i.first])
             {
@@ -119,59 +144,71 @@ int BFS(vector<pair<int,int>> adj[], int src, int dest){
     return 0;
 }
 
-void readnodes(string s, vector<pair<int,string>> nodes){
-    
-    fstream nodesFile (s, ios::in);
-    if(nodesFile.is_open())
+void readnodes(string s, vector<pair<int, string>> nodes)
+{
+
+    fstream nodesFile(s, ios::in);
+    if (nodesFile.is_open())
     {
-        string line, word;        
-        while(getline(nodesFile, line))
+        string line, word;
+        while (getline(nodesFile, line))
         {
-            stringstream str(line); 
-            vector<string> row; 
-            while(getline(str, word, ',')) row.push_back(word);
-            Nodes.push_back(make_pair(stoi(row[0]),row[1]));
-        }        
+            stringstream str(line);
+            vector<string> row;
+            while (getline(str, word, ','))
+                row.push_back(word);
+            Nodes.push_back(make_pair(stoi(row[0]), row[1]));
+        }
     }
-    else cout<<"Error-Nodes\n";
+    else
+        cout << "Error-Nodes\n";
 }
 
-void readedges(string s, vector<pair<int,int>> adj[]){
-    fstream edgesFile (s, ios::in);
-    if(edgesFile.is_open())
+void readedges(string s, vector<pair<int, int>> adj[])
+{
+    fstream edgesFile(s, ios::in);
+    if (edgesFile.is_open())
     {
-        string line, word;        
-        while(getline(edgesFile, line))
+        string line, word;
+        while (getline(edgesFile, line))
         {
-            stringstream str(line); 
-            vector<string> row; 
-            while(getline(str, word, ',')) row.push_back(word);
-            addEdge(adj,stoi(row[0]),stoi(row[1]),stoi(row[2]));
-        }        
+            stringstream str(line);
+            vector<string> row;
+            while (getline(str, word, ','))
+                row.push_back(word);
+            addEdge(adj, stoi(row[0]), stoi(row[1]), stoi(row[2]));
+        }
     }
-    else cout<<"Error-Edges\n";
+    else
+        cout << "Error-Edges\n";
 }
 
 int main()
 {
-    cout<<"Nodes file: ";
-    string nodes;cin>>nodes;
-    readnodes(nodes,Nodes);    
+    ofs.open("path.txt", std::ofstream::out | std::ofstream::trunc);
+    ofs.close();
 
-    cout<<"Edges file: ";
-    string edges;cin>>edges;
-    readedges(edges,adj);  
+    cout << "Nodes file: ";
+    string nodes;
+    cin >> nodes;
+    readnodes("node.csv", Nodes);
+
+    cout << "Edges file: ";
+    string edges;
+    cin >> edges;
+    readedges("edges.csv", adj);
 
     bool stch = false, edch = false;
-    int st,ed;cin>>st>>ed;
+    int st, ed;
+    cin >> st >> ed;
     // for(auto i: Nodes) cout<<i.second<<endl;
     // while(!stch and !edch){
     //     string start, end;
     //     cout<<"Enter Start location:";
     //     cin>>start;
     //     cout<<"Enter Destination:";
-    //     cin>>end;        
-        
+    //     cin>>end;
+
     //     for(auto i: Nodes){
     //         if(i.second==start){
     //             st = i.first;
@@ -187,7 +224,9 @@ int main()
     //     if(edch == false) cout<<"Enter valid destination\n";
     //     cout<<endl;
     // }
-    BFS(adj,st,ed);
-    int yes;cin>>yes;
+    dijkstra(adj, st, ed);
+    char yes;
+    while (yes != EOF)
+        cin >> yes;
     return 0;
 }

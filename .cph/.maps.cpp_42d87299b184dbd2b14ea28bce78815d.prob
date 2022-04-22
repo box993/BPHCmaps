@@ -1,0 +1,1 @@
+{"name":"Local: maps","url":"f:\\Y_II_SEM_II\\DSA Lab\\Project\\BPHCmaps\\maps.cpp","tests":[{"id":1650612484164,"input":"node.csv\nedges.csv\n1\n81\n1","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"f:\\Y_II_SEM_II\\DSA Lab\\Project\\BPHCmaps\\maps.cpp","group":"local","local":true}

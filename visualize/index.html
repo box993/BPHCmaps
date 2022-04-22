@@ -21,7 +21,6 @@
         <div>
             <div id="map" style="
                 height: 800px;
-                /* The height is 400 pixels */
                 width: 80%;
                 /* The width is the width of the web page */
                 margin: auto;">
@@ -38,44 +37,47 @@
                 center: bits,
             });
 
-            var path = [];
+            // var path = [];
 
-            for(var i=0; i<path.length; i++){
-                switch(i){
-                    case 0:
-                        addStartMarker(path[i]);
-                        break;
-                    case path.length-1:
-                        addEndMarker(pathh[i]);
-                        break;
-                    default:
-                        addWalkMarker(path[i]);
-                        break;
-                }
-            }
+            // for(var i=0; i<path.length; i++){
+            //     switch(i){
+            //         case 0:
+            //             addStartMarker(path[i]);
+            //             break;
+            //         case path.length-1:
+            //             addEndMarker(pathh[i]);
+            //             break;
+            //         default:
+            //             addWalkMarker(path[i]);
+            //             break;
+            //     }
+            // }
+            
 
+            addEndMarker({lat: 17.5471584 , lng:78.5724774});
+            
             function addStartMarker(props){
                 var marker = new google.maps.Marker({
-                    position: props.coords,
+                    position: props,
                     map: map,
                     icon:'https://mt.google.com/vt/icon/name=icons/onion/SHARED-mymaps-container_4x.png,icons/onion/1499-shape_circle_4x.png&highlight=01579b,ff000000&scale=2.0)'
-                })
+                });
             }
 
             function addWalkMarker(props){
                 var marker = new google.maps.Marker({
-                    position: props.coords,
+                    position: props,
                     map: map,
                     icon:'https://mt.google.com/vt/icon/name=icons/onion/SHARED-mymaps-container_4x.png,icons/onion/1731-walking-pedestrian_4x.png&highlight=0288D1,ff000000&scale=1.0'
-                })
+                });
             }
              
             function addEndMarker(props){
                 var marker = new google.maps.Marker({
-                    position: props.coords,
+                    position: props,
                     map: map,
                     icon:'https://mt.google.com/vt/icon/name=icons/onion/SHARED-mymaps-pin-container_4x.png,icons/onion/1899-blank-shape_pin_4x.png&highlight=a52714,ff000000&scale=1.0'
-                })
+                });
             }
 
         }
