@@ -50,7 +50,7 @@ void printPath(vector<int> parent, int j)
     cout << j + 1 << " ";
     ofs << j + 1 << " "; //-1
 }
-int dijkstraDist=0;
+int dijkstraDist = 0;
 void dijkstra(vector<pair<int, int>> adj[], int src, int dst)
 {
     src--;
@@ -85,7 +85,7 @@ void dijkstra(vector<pair<int, int>> adj[], int src, int dst)
     printPath(parent, dst);
 }
 
-int BFSdistance=0;
+int BFSdistance = 0;
 
 int printShortestPath(vector<pair<int, int>> adj[], vector<int> parent, int s, int d)
 {
@@ -108,9 +108,11 @@ int printShortestPath(vector<pair<int, int>> adj[], vector<int> parent, int s, i
     {
         cout << s + 1 << " "; //-1
         ofs << s + 1 << " ";
-        for(auto x: adj[parent[s]]){
-            if(x.first==s){
-                BFSdistance+=x.second;
+        for (auto x : adj[parent[s]])
+        {
+            if (x.first == s)
+            {
+                BFSdistance += x.second;
                 break;
             }
         }
@@ -202,40 +204,52 @@ int main()
 
     bool stch = false, edch = false;
     int st, ed;
-    while(!stch and !edch){
+    cout << "Choose start and end location from the following POIs: \nMain Gate\tLibrary\tH-Block\tK-Block\nChess Coutryard Entrance\tWorkshop\tCafeteria\tE-Block\nRock Garden\tD-Block Entrance\tC-Block\tB-Block Entrance\nA-Block Parking\tFootball Ground\tShankar Bhavan\tMess 2\nVyas Bhavan\tWich Please\tVishawakarma Bhavan-Second Entrance\tChipotle\nYumpy's / Thickshake Factory\tGandhi Bhavan\tMess 1\tKrishna Bhavan\nMeera Bhavan\tGanga Bhavan\tMalviya Bhavan\tStudent Activity Center\nSAC Backdoor\tNew Football Ground\tSwimming Pool\tH8 (Staff Quarters)\nH8 Block\tDean's Quarters\tMedical Center\tCricket Ground\nAmul\tMaggi Hotspot\tConnaut Place Entrance 2\tConnaut Place Entrance 1\nTennis Court\tGautum Bhavan\tBasketball Stands\tThrowball Court\nVishawakarma Bhavan Entrance 1\tPhilosopher's Stone\tVolleyball Court\n\n";
+    while (!stch and !edch)
+    {
         string start, end;
-        cout<<"Enter Start location:";
-        getline(cin,start);
-        cout<<"Enter Destination:";
-        getline(cin,end);
+        cout << "Enter Start location:";
+        getline(cin, start);
+        cout << "Enter Destination:";
+        getline(cin, end);
 
-        for(auto i: Nodes){
-            if(i.second==start){
+        for (auto i : Nodes)
+        {
+            if (i.second == start)
+            {
                 st = i.first;
                 stch = true;
             }
-            if(i.second==end){
+            if (i.second == end)
+            {
                 ed = i.first;
-                edch=true;
+                edch = true;
             }
         }
-        cout<<endl;
-        if(stch == false) cout<<"Enter valid start\n";
-        if(edch == false) cout<<"Enter valid destination\n";
-        cout<<endl;
+        cout << endl;
+        if (stch == false)
+            cout << "Enter valid start\n";
+        if (edch == false)
+            cout << "Enter valid destination\n";
+        cout << endl;
     }
+    cout << "Dijkstra Path:\n";
     dijkstra(adj, st, ed);
     if (!ofs.is_open())
     {
         ofs.open("path.txt", std::ios_base::app);
     }
-    ofs<<"\n"<<dijkstraDist<<"\n";
+    cout << "\n";
+    ofs << "\n"
+        << dijkstraDist << "\n";
     BFS(adj, st, ed);
     if (!ofs.is_open())
     {
         ofs.open("path.txt", std::ios_base::app);
     }
-    ofs<<"\n"<<BFSdistance<<"\n";
+    cout << "BFS Path:\n";
+    ofs << "\n"
+        << BFSdistance << "\n";
     char yes;
     while (yes != EOF)
         cin >> yes;

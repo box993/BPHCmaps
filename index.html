@@ -63,24 +63,39 @@
                     fetch("https://api.jsonbin.io/b/6262d011bc312b30ebeb6d6d")
                     .then(res=>res.json())
                     .then(data=>{
-                        for(var i =0; i<4; i++){
+                        for(var i =3; i>=0; i--){
                             let path = allLines[i].split(" ")
                             switch(i){
                                 case 1:
                                     break;
                                 case 3:
                                     break;
-                                default:
-                                    for(var j=0; j<path.length; j++){
+                                case 0:
+                                    for(var j=0; j<path.length-1    ; j++){
                                         switch(j){
                                             case 0:
                                                 addStartMarker(data[path[j]-1]);
                                                 break;
-                                            case (path.length-1):
+                                            case (path.length-2):
                                                 addEndMarker(data[path[j]-1]);
                                                 break;
                                             default:
-                                                addWalkMarker(data[path[j]-1]);
+                                                addWalk1Marker(data[path[j]-1]);
+                                                break;
+                                        }
+                                    }
+                                    break;
+                                case 2:
+                                    for(var j=0; j<path.length-1    ; j++){
+                                        switch(j){
+                                            case 0:
+                                                addStartMarker(data[path[j]-1]);
+                                                break;
+                                            case (path.length-2):
+                                                addEndMarker(data[path[j]-1]);
+                                                break;
+                                            default:
+                                                addWalk2Marker(data[path[j]-1]);
                                                 break;
                                         }
                                     }
@@ -99,24 +114,34 @@
                 var marker = new google.maps.Marker({
                     position: {lng: props.coords[0], lat: props.coords[1]},
                     map: map,
-                    title: props.desc,
+                    title: (props.desc)?props.desc:'',
                     icon:'https://mt.google.com/vt/icon/name=icons/onion/SHARED-mymaps-container_4x.png,icons/onion/1499-shape_circle_4x.png&highlight=01579b,ff000000&scale=2.0)'
                 });
             }
 
-            function addWalkMarker(props){
+            function addWalk1Marker(props){
                 var marker = new google.maps.Marker({
                     position: {lng: props.coords[0], lat: props.coords[1]},
                     map: map,
+                    title: '',
                     icon:'https://mt.google.com/vt/icon/name=icons/onion/SHARED-mymaps-container_4x.png,icons/onion/1731-walking-pedestrian_4x.png&highlight=0288D1,ff000000&scale=1.0'
                 });
             }
-             
+            
+            function addWalk2Marker(props){
+                var marker = new google.maps.Marker({
+                    position: {lng: props.coords[0], lat: props.coords[1]},
+                    map: map,
+                    title: '',
+                    icon:'https://mt.google.com/vt/icon/name=icons/onion/SHARED-mymaps-container_4x.png,icons/onion/1735-wheelchair-handicapped_4x.png&highlight=558b2f,ff000000&scale=1.0'
+                });
+            }
+
             function addEndMarker(props){
                 var marker = new google.maps.Marker({
                     position: {lng: props.coords[0], lat: props.coords[1]},
                     map: map,
-                    title: props.desc,
+                    title: (props.desc)?props.desc:'',
                     icon:'https://mt.google.com/vt/icon/name=icons/onion/SHARED-mymaps-pin-container_4x.png,icons/onion/1899-blank-shape_pin_4x.png&highlight=a52714,ff000000&scale=1.0'
                 });
             }
